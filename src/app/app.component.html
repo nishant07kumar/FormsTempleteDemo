@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form (ngSubmit)="onFormSubmit(formUI)" #formUI="ngForm">
+        <div id="user-data" ngModelGroup="userInfo" #userInfo="ngModelGroup">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" name="userName" required ngModel>
+          </div>
+          <button class="btn btn-default" (click)="suggestUserName()" type="button">Suggest an Username</button>
+          <div class="form-group">
+            <label for="email">Mail</label>
+            <input type="email" id="email" email required class="form-control" name="email" ngModel #email="ngModel">
+            <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email addres</span>
+          </div>
+
+        </div>
+        <p *ngIf="!userInfo.valid && userInfo.touched">User Info Groupo is Invalid.</p>
+        <div class="form-group">
+          <label for="secret">Secret Questions</label>
+          <select id="secret" class="form-control" name="secretQuestion" [ngModel]="defaultQuestion">
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <textarea name="givenAnswer" class="form-control" [(ngModel)]="givenAnswer"></textarea>
+        </div>
+        <div class="radio" *ngFor="let gender of genders">
+          <label><input required type="radio" name="gender" [ngModel]="defaultGender" [value]="gender" />
+            {{gender}}</label>
+        </div>
+        <p> your reply is : {{givenAnswer}}</p>
+        <button [disabled]="!formUI.valid" class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row" *ngIf="isFormSubbmited">
+    <div class="col-xs-12">
+      <h3> Info Entered By You - : </h3>
+      <p>UserName :{{objUser.username}} </p>
+      <p>EmailId :{{objUser.email}} </p>
+      <p>Secret Question : {{objUser.question}}</p>
+      <p>Answer :{{objUser.answer}} </p>
+      <p>Gender : {{objUser.gender}}</p>
+    </div>
+  </div>
+</div>
